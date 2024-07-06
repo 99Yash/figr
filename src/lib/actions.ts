@@ -31,7 +31,7 @@ export async function signup(formData: SignupInput) {
     },
   });
 
-  const expires = new Date(Date.now() + 15 * 60 * 1000);
+  const expires = new Date(Date.now() + 45 * 60 * 1000);
   const session = await encrypt({ user, expires });
 
   cookies().set('session', session, { expires, httpOnly: true });
@@ -62,7 +62,7 @@ export async function login(formData: LoginInput) {
       throw new Error('Invalid email or password');
     }
 
-    const expires = new Date(Date.now() + 15 * 60 * 1000);
+    const expires = new Date(Date.now() + 45 * 60 * 1000);
     const session = await encrypt({
       user: {
         email: formData.email,

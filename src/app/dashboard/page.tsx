@@ -1,3 +1,4 @@
+import { Colors } from '@/components/forms/colors';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getSession } from '@/lib/auth';
 import { redirect } from 'next/navigation';
@@ -7,9 +8,7 @@ const tabs = ['Colors', 'Typography', 'Components'];
 export default async function Dashboard() {
   const session = await getSession();
 
-  if (!session) {
-    return redirect('/');
-  }
+  if (!session) redirect('/');
 
   return (
     <section className="flex flex-col gap-4 items-center justify-center">
@@ -25,7 +24,7 @@ export default async function Dashboard() {
           ))}
         </TabsList>
         <TabsContent value="Colors" className="w-full">
-          <p>Colors</p>
+          <Colors />
         </TabsContent>
         <TabsContent value="Typography">
           <p>Typography</p>
