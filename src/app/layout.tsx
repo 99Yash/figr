@@ -29,7 +29,7 @@ export default async function RootLayout({
       >
         {' '}
         {session && (
-          <div className="flex items-center justify-between my-12">
+          <div className="flex items-center justify-between my-2">
             <Link
               href={'/'}
               className="text-xl tracking-tight font-semibold ml-12"
