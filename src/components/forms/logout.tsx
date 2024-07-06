@@ -4,7 +4,6 @@ import { logout } from '@/lib/actions';
 import { catchError } from '@/lib/utils';
 import { useState } from 'react';
 import { Button } from '../ui/button';
-import { Loading } from '../ui/loading';
 
 export function Logout() {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,8 +20,8 @@ export function Logout() {
   }
 
   return (
-    <Button type="submit" disabled={isLoading} onClick={onClick}>
-      {isLoading ? <Loading /> : 'Logout'}
+    <Button variant={'ghost'} className="flex h-7 w-full" onClick={onClick}>
+      <span className="text-sm text-muted-foreground">Log out</span>
     </Button>
   );
 }

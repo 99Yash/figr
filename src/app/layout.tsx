@@ -3,6 +3,7 @@ import { UserNav } from '@/components/user-menu';
 import { getSession } from '@/lib/auth';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import Link from 'next/link';
 import { cn } from '../lib/utils';
 import './globals.css';
 
@@ -28,8 +29,13 @@ export default async function RootLayout({
       >
         {' '}
         {session && (
-          <div className="flex items-center justify-between m-12">
-            <p className="text-xl tracking-tight font-semibold">Identity</p>
+          <div className="flex items-center justify-between my-12">
+            <Link
+              href={'/'}
+              className="text-xl tracking-tight font-semibold ml-12"
+            >
+              Identity
+            </Link>
             <div className="flex items-center justify-end m-12">
               <UserNav user={session.user} />
             </div>

@@ -1,5 +1,4 @@
 import { LoginForm } from '@/components/forms/login';
-import { Logout } from '@/components/forms/logout';
 import { SignupForm } from '@/components/forms/signup';
 import { getSession } from '@/lib/auth';
 
@@ -13,7 +12,6 @@ export default async function Home() {
           <h1 className="text-3xl font-semibold tracking-tight">
             Welcome back, {session.user.name}
           </h1>
-          <Logout />
         </section>
       ) : (
         <section className="flex flex-col items-center justify-center gap-5">
