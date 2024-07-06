@@ -1,3 +1,6 @@
+import { Toaster } from '@/components/ui/toaster';
+import { UserNav } from '@/components/user-menu';
+import { getSession } from '@/lib/auth';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { cn } from '../lib/utils';
@@ -10,11 +13,12 @@ export const metadata: Metadata = {
   description: 'Design system generator for a software application',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getSession();
   return (
     <html lang="en">
       <body
@@ -22,6 +26,16 @@ export default function RootLayout({
           (cn('bg-gray-50 dark:bg-gray-900 antialiased'), inter.className)
         }
       >
+        {' '}
+        {session && (
+          <div className="flex items-center justify-between m-12">
+            <p className="text-xl tracking-tight font-semibold">Identity</p>
+            <div className="flex items-center justify-end m-12">
+              <UserNav user={session.user} />
+            </div>
+          </div>
+        )}
+        <Toaster />
         {children}
       </body>
     </html>

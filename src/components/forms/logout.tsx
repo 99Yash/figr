@@ -1,32 +1,28 @@
 'use client';
 
 import { logout } from '@/lib/actions';
+import { catchError } from '@/lib/utils';
 import { useState } from 'react';
 import { Button } from '../ui/button';
+import { Loading } from '../ui/loading';
 
-export function LogoutForm() {
+export function Logout() {
   const [isLoading, setIsLoading] = useState(false);
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function onClick() {
     setIsLoading(true);
     try {
       await logout();
     } catch (e) {
-      console.log(e);
+      catchError(e);
     } finally {
       setIsLoading(false);
     }
   }
 
   return (
-    <form onSubmit={(e) => onSubmit(e)}>
-      <Button disabled={isLoading} type="submit">
-        {isLoading && (
-          <span className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
-        )}
-        {!isLoading && 'Logout'}
-      </Button>
-    </form>
+    <Button type="submit" disabled={isLoading} onClick={onClick}>
+      {isLoading ? <Loading /> : 'Logout'}
+    </Button>
   );
 }

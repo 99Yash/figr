@@ -1,11 +1,10 @@
 'use client';
 
-import { login } from '@/lib/actions';
+import { signup } from '@/lib/actions';
 import { catchError } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
 import { z } from 'zod';
 import { Button } from '../ui/button';
 import {
@@ -18,34 +17,30 @@ import {
 } from '../ui/form';
 import { Input } from '../ui/input';
 import { Loading } from '../ui/loading';
+import { loginSchema } from './login';
 
-export const loginSchema = z.object({
-  email: z.string().email({
-    message: 'Please enter a valid email address',
-  }),
-  password: z.string().min(4, {
-    message: 'Password must be at least 4 characters long',
-  }),
+export const signupSchema = loginSchema.extend({
+  name: z.string().min(1),
 });
 
-export type LoginInput = z.infer<typeof loginSchema>;
+export type SignupInput = z.infer<typeof signupSchema>;
 
-export function LoginForm() {
-  const form = useForm<LoginInput>({
-    resolver: zodResolver(loginSchema),
+export function SignupForm() {
+  const form = useForm<SignupInput>({
+    resolver: zodResolver(signupSchema),
     defaultValues: {
       email: '',
       password: '',
+      name: '',
     },
   });
 
   const [isLoading, setIsLoading] = useState(false);
 
-  async function onSubmit(data: LoginInput) {
+  async function onSubmit(data: SignupInput) {
     setIsLoading(true);
     try {
-      await login(data);
-      toast.success('Login successful');
+      await signup(data);
     } catch (e) {
       catchError(e);
     } finally {
@@ -60,6 +55,24 @@ export function LoginForm() {
         className="grid gap-2 space-y-4"
       >
         <div className="grid gap-1">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input
+                    autoFocus
+                    autoComplete="name"
+                    placeholder="Vance Joseph"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="email"
@@ -100,7 +113,7 @@ export function LoginForm() {
           {isLoading ? (
             <Loading className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
           ) : (
-            'Login with Email'
+            'Register'
           )}
         </Button>
       </form>
