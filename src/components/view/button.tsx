@@ -1,10 +1,16 @@
 'use client';
 
-import { cn } from '@/lib/utils';
+import { cn, getColorFromCssValue } from '@/lib/utils';
 import { useAppSelector } from '@/store';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button as ButtonComponent } from '../ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '../ui/card';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Slider } from '../ui/slider';
@@ -18,13 +24,25 @@ export function Button() {
   const [borderColor, setBorderColor] = useState(config.color.color);
   const [textColor, setTextColor] = useState(config.color.color);
 
+  useEffect(() => {
+    const hex = getColorFromCssValue(config.color.color);
+    setBorderColor(hex);
+  }, [config.color.color]);
+
   return (
     <div className="flex flex-col gap-7 w-1/3">
-      <Card style={{ borderColor: borderColor ?? config.color.color }}>
-        <CardHeader className="flex justify-between">
-          <CardTitle className="font-semibold text-center text-lg tracking-tight">
+      <Card
+        className="grow"
+        style={{ borderColor: borderColor ?? config.color.color }}
+      >
+        <CardHeader className="flex items-center justify-between">
+          <CardTitle className="font-semibold  text-lg tracking-tight">
             Button
           </CardTitle>
+          <CardDescription className="text-xs text-muted-foreground">
+            Button text set to <code>justify-start</code> instead of the default{' '}
+            <code>justify-center</code>
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <ButtonComponent
@@ -87,7 +105,9 @@ export function Button() {
             placeholder="john@example.com"
             autoComplete="off"
           />
-          <span className="text-xs text-muted-foreground">{borderColor}</span>
+          <span className="text-xs text-muted-foreground">
+            {borderColor ?? config.color.color}
+          </span>
         </div>
         <div className="flex items-center gap-2 w-1/2">
           <Label className="text-sm tracking-tight text-muted-foreground">
@@ -103,7 +123,9 @@ export function Button() {
               color: textColor,
             }}
           />
-          <span className="text-xs text-muted-foreground">{textColor}</span>
+          <span className="text-xs text-muted-foreground">
+            {textColor ?? config.color.color}
+          </span>
         </div>
       </div>
     </div>

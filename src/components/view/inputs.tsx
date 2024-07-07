@@ -3,9 +3,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { cn } from '@/lib/utils';
+import { cn, getColorFromCssValue } from '@/lib/utils';
 import { useAppSelector } from '@/store';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Input } from '../ui/input';
 import { Slider } from '../ui/slider';
 
@@ -15,6 +15,13 @@ export function Inputs() {
   const [paddingY, setPaddingY] = useState(2);
   const [borderColor, setBorderColor] = useState(config.color.color);
   const [textColor, setTextColor] = useState(config.color.color);
+
+  useEffect(() => {
+    const hex = getColorFromCssValue(config.color.color);
+    setBorderColor(hex);
+    setTextColor(hex);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [config.color.color]);
 
   return (
     <div className="flex flex-col w-1/3 gap-7">
@@ -51,13 +58,14 @@ export function Inputs() {
             </div>
           </RadioGroup>
           <Input
+            autoFocus
             id="email"
             className={cn(
               'block mb-2 w-full rounded-md px-3 border-0 py-1 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6',
               `ring-none focus-visible:ring-none focus:ring-[${config.color.color} focus:text-[${config.color.color}] focus-visible:ring-[${config.color.color}]`
             )}
             style={{
-              border: `1px solid ${borderColor}`,
+              border: `1px solid ${borderColor ?? config.color.color}`,
               borderRadius: config.radius.value,
               color: textColor,
               padding: `${paddingY}px ${paddingX}px`,
@@ -112,7 +120,9 @@ export function Inputs() {
               placeholder="john@example.com"
               autoComplete="off"
             />
-            <span className="text-xs text-muted-foreground">{borderColor}</span>
+            <span className="text-xs text-muted-foreground">
+              {borderColor ?? config.color.color}
+            </span>
           </div>
           <div className="flex items-center gap-2 w-1/2">
             <Label className="text-sm tracking-tight text-muted-foreground">
@@ -124,7 +134,7 @@ export function Inputs() {
               onChange={(e) => setTextColor(e.target.value)}
               className="w-1/2"
               style={{
-                border: `${config.radius.value}px solid ${borderColor}`,
+                border: `1px solid ${borderColor}`,
                 borderRadius: config.radius.value,
                 color: textColor,
               }}

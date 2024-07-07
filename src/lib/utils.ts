@@ -30,3 +30,20 @@ export function getInitials(name: string) {
 
   return `${firstNameInitial.toLocaleUpperCase()}${lastNameInitial.toLocaleUpperCase()}`;
 }
+
+export const getColorFromCssValue = (cssColor: string) => {
+  const div = document.createElement('div');
+  div.style.color = cssColor;
+  document.body.appendChild(div);
+
+  const computedColor = window.getComputedStyle(div).color;
+  document.body.removeChild(div);
+
+  const hex = rgbToHex(computedColor);
+  return hex;
+};
+
+export const rgbToHex = (rgb: string): string => {
+  const [r, g, b] = rgb.match(/\d+/g)!.map(Number);
+  return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+};
