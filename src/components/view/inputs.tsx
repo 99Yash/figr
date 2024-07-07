@@ -11,14 +11,14 @@ import { Slider } from '../ui/slider';
 
 export function Inputs() {
   const config = useAppSelector((state) => state.config);
-  const [paddingX, setPaddingX] = useState(2);
+  const [paddingX, setPaddingX] = useState(8);
   const [paddingY, setPaddingY] = useState(2);
   const [borderColor, setBorderColor] = useState(config.color.color);
   const [textColor, setTextColor] = useState(config.color.color);
 
   return (
     <div className="flex flex-col w-1/3 gap-7">
-      <Card style={{ borderColor }} className="w-full">
+      <Card style={{ borderColor: borderColor ?? config.color.color }}>
         <CardHeader className="flex justify-between">
           <CardTitle className="font-semibold text-center text-lg tracking-tight">
             Input (Text & Radio)
@@ -101,14 +101,13 @@ export function Inputs() {
             </Label>
             <Input
               type="color"
-              value={borderColor}
+              value={borderColor ?? config.color.color}
               onChange={(e) => setBorderColor(e.target.value)}
               className="w-1/2"
               style={{
                 border: `1px solid ${borderColor}`,
                 borderRadius: config.radius.value,
                 color: borderColor,
-                padding: `${paddingY}px ${paddingX}px`,
               }}
               placeholder="john@example.com"
               autoComplete="off"
@@ -121,14 +120,13 @@ export function Inputs() {
             </Label>
             <Input
               type="color"
-              value={textColor}
+              value={textColor ?? config.color.color}
               onChange={(e) => setTextColor(e.target.value)}
               className="w-1/2"
               style={{
                 border: `${config.radius.value}px solid ${borderColor}`,
                 borderRadius: config.radius.value,
                 color: textColor,
-                padding: `${paddingY}px ${paddingX}px`,
               }}
               placeholder="john@example.com"
               autoComplete="off"

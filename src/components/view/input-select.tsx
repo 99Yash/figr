@@ -26,7 +26,7 @@ export function InputSelect() {
 
   return (
     <div className="flex flex-col gap-7 w-1/3">
-      <Card style={{ borderColor }}>
+      <Card style={{ borderColor: borderColor ?? config.color.color }}>
         <CardHeader className="flex justify-between">
           <CardTitle className="font-semibold text-center text-lg tracking-tight">
             Select
@@ -99,7 +99,6 @@ export function InputSelect() {
               border: `1px solid ${borderColor}`,
               borderRadius: config.radius.value,
               color: borderColor,
-              padding: `${paddingY}px ${paddingX}px`,
             }}
             placeholder="john@example.com"
             autoComplete="off"
@@ -119,7 +118,6 @@ export function InputSelect() {
               border: `1px solid ${borderColor}`,
               borderRadius: config.radius.value,
               color: textColor,
-              padding: `${paddingY}px ${paddingX}px`,
             }}
           />
           <span className="text-xs text-muted-foreground">{textColor}</span>

@@ -9,10 +9,7 @@ export function Cards() {
   const config = useAppSelector((state) => state.config);
 
   return (
-    <div
-      className="flex flex-col justify-center items-center py-4 space-y-8"
-      style={{ gap: config.spacing.value }}
-    >
+    <div className="flex" style={{ gap: config.spacing.value }}>
       <Inputs />
       <Button />
       <InputSelect />

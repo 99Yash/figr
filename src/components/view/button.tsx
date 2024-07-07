@@ -20,7 +20,7 @@ export function Button() {
 
   return (
     <div className="flex flex-col gap-7 w-1/3">
-      <Card style={{ borderColor }}>
+      <Card style={{ borderColor: borderColor ?? config.color.color }}>
         <CardHeader className="flex justify-between">
           <CardTitle className="font-semibold text-center text-lg tracking-tight">
             Button
@@ -30,7 +30,7 @@ export function Button() {
           <ButtonComponent
             variant={'outline'}
             size="sm"
-            className={cn('self-center w-full')}
+            className={cn('justify-start w-full')}
             style={{
               backgroundColor: config.color.color,
               borderRadius: config.radius.value,
@@ -77,14 +77,12 @@ export function Button() {
           </Label>
           <Input
             type="color"
-            value={borderColor}
+            value={borderColor ?? config.color.color}
             onChange={(e) => setBorderColor(e.target.value)}
             className="w-1/2"
             style={{
-              border: `1px solid ${borderColor}`,
               borderRadius: config.radius.value,
               color: borderColor,
-              padding: `${paddingY}px ${paddingX}px`,
             }}
             placeholder="john@example.com"
             autoComplete="off"
@@ -97,14 +95,12 @@ export function Button() {
           </Label>
           <Input
             type="color"
-            value={textColor}
+            value={textColor ?? config.color.color}
             onChange={(e) => setTextColor(e.target.value)}
             className="w-1/2"
             style={{
-              border: `1px solid ${borderColor}`,
               borderRadius: config.radius.value,
               color: textColor,
-              padding: `${paddingY}px ${paddingX}px`,
             }}
           />
           <span className="text-xs text-muted-foreground">{textColor}</span>
