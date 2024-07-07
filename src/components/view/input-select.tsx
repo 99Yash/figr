@@ -108,7 +108,7 @@ export function InputSelect() {
         </div>
       </div>
       <div className="grid gap-2 w-full">
-        <div className="flex gap-1 w-1/3">
+        <div className="flex gap-1">
           <Label className="text-sm tracking-tight text-muted-foreground">
             Border
           </Label>
@@ -129,7 +129,7 @@ export function InputSelect() {
             {borderColor ?? config.color.color}
           </span>
         </div>
-        <div className="flex items-center gap-2 w-1/2">
+        <div className="flex items-center gap-2">
           <Label className="text-sm tracking-tight text-muted-foreground">
             Text
           </Label>
@@ -148,7 +148,7 @@ export function InputSelect() {
             {textColor ?? 'black'}
           </span>
         </div>
-        <div className="flex items-center gap-2 w-1/2">
+        <div className="flex items-center gap-2">
           <Label className="text-sm tracking-tight text-muted-foreground">
             Background
           </Label>

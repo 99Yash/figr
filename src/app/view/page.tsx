@@ -56,7 +56,7 @@ export default async function Page() {
         </Link>
       </div>
 
-      <div className="flex flex-col self-start gap-12 w-full">
+      <div className="flex flex-col self-start gap-12 min-w-full">
         <Customizer
           colors={colors.length > 0 ? colors : defaultColors}
           radii={radii.length > 0 ? radii : defaultRadii}
