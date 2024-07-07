@@ -1,5 +1,5 @@
-import { LoginForm } from '@/components/forms/login';
-import { SignupForm } from '@/components/forms/signup';
+import { LoginForm } from '@/components/forms/auth/login';
+import { SignupForm } from '@/components/forms/auth/signup';
 import { getSession } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 

@@ -7,6 +7,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
+import { PaletteIcon } from 'lucide-react';
 
 export function Customizer({
   colors,
@@ -21,6 +22,7 @@ export function Customizer({
     <Popover>
       <PopoverTrigger asChild>
         <Button size="sm" className="w-fit">
+          <PaletteIcon className="mr-1 size-3.5 text-yellow-600" />
           Customize
         </Button>
       </PopoverTrigger>

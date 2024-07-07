@@ -6,7 +6,8 @@ import { User } from '@prisma/client';
 import { Edit3Icon, LayoutDashboard } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Logout } from './forms/logout';
+
+import { Logout } from './forms/auth/logout';
 import { Avatar, AvatarFallback } from './ui/avatar';
 import { Button } from './ui/button';
 import {

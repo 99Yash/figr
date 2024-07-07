@@ -1,6 +1,6 @@
-import { Colors } from '@/components/forms/colors';
-import { Radius } from '@/components/forms/radius';
-import { Spacing } from '@/components/forms/spacing';
+import { Colors } from '@/components/forms/app/colors';
+import { Radius } from '@/components/forms/app/radius';
+import { Spacing } from '@/components/forms/app/spacing';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getSession } from '@/lib/auth';
 import { db } from '@/lib/db';

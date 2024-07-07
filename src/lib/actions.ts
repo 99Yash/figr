@@ -1,10 +1,11 @@
 'use server';
 
-import { ColorsFormData } from '@/components/forms/colors';
-import { LoginInput } from '@/components/forms/login';
-import { RadiusFormData } from '@/components/forms/radius';
-import { SignupInput } from '@/components/forms/signup';
-import { SpacingFormData } from '@/components/forms/spacing';
+import { LoginInput } from '@/components/forms/auth/login';
+import { SignupInput } from '@/components/forms/auth/signup';
+
+import { ColorsFormData } from '@/components/forms/app/colors';
+import { RadiusFormData } from '@/components/forms/app/radius';
+import { SpacingFormData } from '@/components/forms/app/spacing';
 import bcrypt from 'bcrypt';
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
