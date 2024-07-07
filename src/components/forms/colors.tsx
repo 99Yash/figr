@@ -1,8 +1,8 @@
 'use client';
 
 import { submitColor } from '@/lib/actions';
-import { colorNames } from '@/lib/data';
-import { default as ObjectId, default as ObjectID } from 'bson-objectid';
+import { colorNames, defaultColors } from '@/lib/data';
+import { default as ObjectId } from 'bson-objectid';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -65,26 +65,7 @@ export function Colors({
 }) {
   const form = useForm<ColorsFormData>({
     defaultValues: {
-      colors:
-        userColors.length > 0
-          ? userColors
-          : [
-              {
-                id: new ObjectID().toHexString(),
-                label: 'Primary',
-                color: '#000000',
-              },
-              {
-                id: new ObjectID().toHexString(),
-                label: 'Secondary',
-                color: '#ffffff',
-              },
-              {
-                id: new ObjectID().toHexString(),
-                label: 'Tertiary',
-                color: '#cccccc',
-              },
-            ],
+      colors: userColors.length > 0 ? userColors : defaultColors,
     },
     mode: 'onChange',
   });
@@ -97,8 +78,8 @@ export function Colors({
   async function onSubmit(data: ColorsFormData) {
     try {
       await submitColor(data);
+      form.reset(form.getValues());
       toast.success('Colors saved');
-      form.reset();
     } catch (e) {
       catchError(e);
     }

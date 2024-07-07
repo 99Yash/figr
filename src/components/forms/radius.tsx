@@ -1,6 +1,7 @@
 'use client';
 
 import { submitRadius } from '@/lib/actions';
+import { defaultRadii } from '@/lib/data';
 import { catchError, cn } from '@/lib/utils';
 import ObjectID from 'bson-objectid';
 import { useFieldArray, useForm } from 'react-hook-form';
@@ -47,21 +48,7 @@ export function Radius({
 }) {
   const form = useForm<RadiusFormData>({
     defaultValues: {
-      radii:
-        userRadius.length > 0
-          ? userRadius
-          : [
-              {
-                id: new ObjectID().toHexString(),
-                label: 'Primary',
-                value: 2,
-              },
-              {
-                id: new ObjectID().toHexString(),
-                label: 'Secondary',
-                value: 3,
-              },
-            ],
+      radii: userRadius.length > 0 ? userRadius : defaultRadii,
     },
     mode: 'onChange',
   });
@@ -79,7 +66,7 @@ export function Radius({
     }));
     try {
       await submitRadius({ radii: formattedData });
-      form.reset();
+      form.reset(form.getValues());
       toast.success('Radius saved');
     } catch (e) {
       catchError(e);

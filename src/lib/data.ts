@@ -1,3 +1,5 @@
+import ObjectID from 'bson-objectid';
+
 // List of supported CSS colors
 export const colorNames = [
   'aliceblue',
@@ -141,4 +143,48 @@ export const colorNames = [
   'whitesmoke',
   'yellow',
   'yellowgreen',
+];
+
+export const defaultColors = [
+  {
+    id: new ObjectID().toHexString(),
+    label: 'Primary',
+    color: '#000000',
+  },
+  {
+    id: new ObjectID().toHexString(),
+    label: 'Secondary',
+    color: '#ffffff',
+  },
+  {
+    id: new ObjectID().toHexString(),
+    label: 'Tertiary',
+    color: '#cccccc',
+  },
+];
+
+export const defaultSpacing = [
+  {
+    id: new ObjectID().toHexString(),
+    label: 'Primary',
+    value: 2,
+  },
+  {
+    id: new ObjectID().toHexString(),
+    label: 'Secondary',
+    value: 3,
+  },
+];
+
+export const defaultRadii = [
+  {
+    id: new ObjectID().toHexString(),
+    label: 'Primary',
+    value: 2,
+  },
+  {
+    id: new ObjectID().toHexString(),
+    label: 'Secondary',
+    value: 3,
+  },
 ];

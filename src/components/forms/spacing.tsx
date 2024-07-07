@@ -1,6 +1,7 @@
 'use client';
 
 import { submitSpacing } from '@/lib/actions';
+import { defaultSpacing } from '@/lib/data';
 import { catchError, cn } from '@/lib/utils';
 import ObjectID from 'bson-objectid';
 import { useFieldArray, useForm } from 'react-hook-form';
@@ -47,21 +48,7 @@ export function Spacing({
 }) {
   const form = useForm<SpacingFormData>({
     defaultValues: {
-      spacing:
-        specifiedSpacing.length > 0
-          ? specifiedSpacing
-          : [
-              {
-                id: new ObjectID().toHexString(),
-                label: 'Primary',
-                value: 2,
-              },
-              {
-                id: new ObjectID().toHexString(),
-                label: 'Secondary',
-                value: 3,
-              },
-            ],
+      spacing: specifiedSpacing.length > 0 ? specifiedSpacing : defaultSpacing,
     },
     mode: 'onChange',
   });
@@ -79,7 +66,7 @@ export function Spacing({
     }));
     try {
       await submitSpacing({ spacing: formattedData });
-      form.reset();
+      form.reset(form.getValues());
       toast.success('Values saved');
     } catch (e) {
       catchError(e);

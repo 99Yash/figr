@@ -4,6 +4,7 @@ import { Spacing } from '@/components/forms/spacing';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getSession } from '@/lib/auth';
 import { db } from '@/lib/db';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
 const tabs = ['Colors', 'Radius', 'Spacing'];
@@ -48,9 +49,17 @@ export default async function Dashboard() {
 
   return (
     <section className="flex flex-col gap-4 items-center justify-center">
-      <h1 className="text-3xl font-semibold tracking-tighter">
-        Welcome back, {session.user.name}
-      </h1>
+      <div className="flex flex-col gap-1.5 items-center justify-center">
+        <h1 className="text-3xl font-semibold tracking-tighter">
+          Welcome back, {session.user.name}
+        </h1>
+        <p className="text-muted-foreground text-sm tracking-tight">
+          Adjust values and parameters to be reflected in your project
+        </p>
+        <Link className="text-sm tracking-tight underline" href="/view">
+          View Design
+        </Link>
+      </div>
       <Tabs
         defaultValue="Colors"
         className="w-full flex flex-col gap-4 items-center justify-center"
