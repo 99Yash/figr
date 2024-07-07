@@ -2,6 +2,7 @@
 
 import { submitColor } from '@/lib/actions';
 import { colorNames } from '@/lib/data';
+import ObjectId from 'bson-objectid';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -125,6 +126,21 @@ export function Colors({
               </div>
             ))}
             <div className="flex justify-between gap-2 items-center">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="mt-2"
+                onClick={() =>
+                  append({
+                    id: new ObjectId().toHexString(),
+                    label: `Color ${fields.length + 1}`,
+                    color: '#000000',
+                  })
+                }
+              >
+                Add Color
+              </Button>
               <Button
                 disabled={
                   !form.formState.isDirty || form.formState.isSubmitting
