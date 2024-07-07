@@ -57,7 +57,7 @@ export function Inputs() {
               `ring-none focus-visible:ring-none focus:ring-[${config.color.color} focus:text-[${config.color.color}] focus-visible:ring-[${config.color.color}]`
             )}
             style={{
-              border: `${config.radius.value}px solid ${borderColor}`,
+              border: `1px solid ${borderColor}`,
               borderRadius: config.radius.value,
               color: textColor,
               padding: `${paddingY}px ${paddingX}px`,
@@ -105,7 +105,7 @@ export function Inputs() {
               onChange={(e) => setBorderColor(e.target.value)}
               className="w-1/2"
               style={{
-                border: `${config.radius.value}px solid ${borderColor}`,
+                border: `1px solid ${borderColor}`,
                 borderRadius: config.radius.value,
                 color: borderColor,
                 padding: `${paddingY}px ${paddingX}px`,

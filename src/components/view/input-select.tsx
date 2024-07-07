@@ -96,7 +96,7 @@ export function InputSelect() {
             onChange={(e) => setBorderColor(e.target.value)}
             className="w-1/2"
             style={{
-              border: `${config.radius.value}px solid ${borderColor}`,
+              border: `1px solid ${borderColor}`,
               borderRadius: config.radius.value,
               color: borderColor,
               padding: `${paddingY}px ${paddingX}px`,
