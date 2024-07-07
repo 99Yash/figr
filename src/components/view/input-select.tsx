@@ -20,9 +20,12 @@ export function InputSelect() {
   const [paddingX, setPaddingX] = useState(2);
   const [paddingY, setPaddingY] = useState(2);
 
+  const [borderColor, setBorderColor] = useState(config.color.color);
+  const [textColor, setTextColor] = useState(config.color.color);
+
   return (
     <div className="flex flex-col gap-7 w-1/3">
-      <Card className="relative flex-1">
+      <Card style={{ borderColor }}>
         <CardHeader className="flex justify-between">
           <CardTitle className="font-semibold text-center text-lg tracking-tight">
             Select
@@ -35,9 +38,7 @@ export function InputSelect() {
                 borderColor: config.color.color,
                 borderRadius: config.radius.value,
               }}
-              className={cn(
-                'w-5/6 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
-              )}
+              className={cn('w-full')}
             >
               <SelectValue placeholder="Select a fruit" />
             </SelectTrigger>

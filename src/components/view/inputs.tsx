@@ -13,10 +13,12 @@ export function Inputs() {
   const config = useAppSelector((state) => state.config);
   const [paddingX, setPaddingX] = useState(2);
   const [paddingY, setPaddingY] = useState(2);
+  const [borderColor, setBorderColor] = useState(config.color.color);
+  const [textColor, setTextColor] = useState(config.color.color);
 
   return (
     <div className="flex flex-col w-1/3 gap-7">
-      <Card className="w-full">
+      <Card style={{ borderColor }} className="w-full">
         <CardHeader className="flex justify-between">
           <CardTitle className="font-semibold text-center text-lg tracking-tight">
             Input (Text & Radio)
@@ -32,8 +34,8 @@ export function Inputs() {
                 <div key={index} className="flex items-center gap-2">
                   <RadioGroupItem
                     style={{
-                      borderColor: config.color.color,
-                      color: config.color.color,
+                      borderColor,
+                      color: textColor,
                     }}
                     defaultChecked
                     value={item}
@@ -52,12 +54,12 @@ export function Inputs() {
             id="email"
             className={cn(
               'block mb-2 w-full rounded-md px-3 border-0 py-1 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6',
-              `ring-[${config.color.color}] focus-visible:ring-[${config.color.color}] focus:ring-[${config.color.color} focus:text-[${config.color.color}] focus-visible:ring-[${config.color.color}]`
+              `ring-none focus-visible:ring-none focus:ring-[${config.color.color} focus:text-[${config.color.color}] focus-visible:ring-[${config.color.color}]`
             )}
             style={{
-              border: `1px solid ${config.color.color}`,
+              border: `1px solid ${borderColor}`,
               borderRadius: config.radius.value,
-              color: config.color.color,
+              color: textColor,
               padding: `${paddingY}px ${paddingX}px`,
             }}
             placeholder="john@example.com"
@@ -76,19 +78,6 @@ export function Inputs() {
             value={[paddingX]}
             onValueChange={(e) => setPaddingX(e[0])}
             className="w-1/2"
-            style={
-              {
-                '-webkit-slider-runnable-track': {
-                  background: config.color.color,
-                },
-                '-webkit-slider-thumb': {
-                  background: config.color.color,
-                },
-                '--track-color': config.color.color,
-                '--range-color': config.color.color,
-                '--thumb-color': config.color.color,
-              } as React.CSSProperties
-            }
           />
           <span className="text-xs text-muted-foreground">{paddingX} px</span>
         </div>
@@ -104,6 +93,48 @@ export function Inputs() {
             className="w-1/2"
           />
           <span className="text-xs text-muted-foreground">{paddingY} px</span>
+        </div>
+        <div className="flex items-center gap-2 w-full">
+          <div className="flex items-center gap-1 w-1/2">
+            <Label className="text-sm tracking-tight text-muted-foreground">
+              Border
+            </Label>
+            <Input
+              type="color"
+              value={borderColor}
+              onChange={(e) => setBorderColor(e.target.value)}
+              className="w-1/2"
+              style={{
+                border: `1px solid ${borderColor}`,
+                borderRadius: config.radius.value,
+                color: borderColor,
+                padding: `${paddingY}px ${paddingX}px`,
+              }}
+              placeholder="john@example.com"
+              autoComplete="off"
+            />
+            <span className="text-xs text-muted-foreground">{borderColor}</span>
+          </div>
+          <div className="flex items-center gap-2 w-1/2">
+            <Label className="text-sm tracking-tight text-muted-foreground">
+              Text
+            </Label>
+            <Input
+              type="color"
+              value={textColor}
+              onChange={(e) => setTextColor(e.target.value)}
+              className="w-1/2"
+              style={{
+                border: `1px solid ${textColor}`,
+                borderRadius: config.radius.value,
+                color: textColor,
+                padding: `${paddingY}px ${paddingX}px`,
+              }}
+              placeholder="john@example.com"
+              autoComplete="off"
+            />
+            <span className="text-xs text-muted-foreground">{textColor}</span>
+          </div>
         </div>
       </div>
     </div>
