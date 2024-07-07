@@ -79,6 +79,7 @@ export function Spacing({
     }));
     try {
       await submitSpacing({ spacing: formattedData });
+      form.reset();
       toast.success('Values saved');
     } catch (e) {
       catchError(e);

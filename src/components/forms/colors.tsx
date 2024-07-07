@@ -98,6 +98,7 @@ export function Colors({
     try {
       await submitColor(data);
       toast.success('Colors saved');
+      form.reset();
     } catch (e) {
       catchError(e);
     }

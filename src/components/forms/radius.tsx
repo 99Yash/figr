@@ -79,6 +79,7 @@ export function Radius({
     }));
     try {
       await submitRadius({ radii: formattedData });
+      form.reset();
       toast.success('Radius saved');
     } catch (e) {
       catchError(e);
