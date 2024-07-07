@@ -15,7 +15,7 @@ export function Inputs() {
   const [paddingY, setPaddingY] = useState(2);
 
   return (
-    <div className="flex flex-col flex-1 gap-2">
+    <div className="flex flex-col w-1/3 gap-7">
       <Card className="w-full">
         <CardHeader className="flex justify-between">
           <CardTitle className="font-semibold text-center text-lg tracking-tight">
@@ -67,10 +67,7 @@ export function Inputs() {
       </Card>
       <div className="flex flex-col gap-7">
         <div className="flex items-center gap-2">
-          <Label
-            htmlFor="email"
-            className="text-sm tracking-tight text-muted-foreground"
-          >
+          <Label className="text-sm tracking-tight text-muted-foreground">
             Padding X{' '}
           </Label>
           <Slider
@@ -79,14 +76,24 @@ export function Inputs() {
             value={[paddingX]}
             onValueChange={(e) => setPaddingX(e[0])}
             className="w-1/2"
+            style={
+              {
+                '-webkit-slider-runnable-track': {
+                  background: config.color.color,
+                },
+                '-webkit-slider-thumb': {
+                  background: config.color.color,
+                },
+                '--track-color': config.color.color,
+                '--range-color': config.color.color,
+                '--thumb-color': config.color.color,
+              } as React.CSSProperties
+            }
           />
           <span className="text-xs text-muted-foreground">{paddingX} px</span>
         </div>
         <div className="flex items-center gap-2">
-          <Label
-            htmlFor="email"
-            className="text-sm tracking-tight text-muted-foreground"
-          >
+          <Label className="text-sm tracking-tight text-muted-foreground">
             Padding Y
           </Label>
           <Slider
