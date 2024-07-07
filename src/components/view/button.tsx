@@ -75,13 +75,13 @@ export function Button() {
           <Label className="text-sm tracking-tight text-muted-foreground">
             Border
           </Label>
-          <input
+          <Input
             type="color"
             value={borderColor}
             onChange={(e) => setBorderColor(e.target.value)}
             className="w-1/2"
             style={{
-              border: `1px solid ${borderColor}`,
+              border: `${config.radius.value}px solid ${borderColor}`,
               borderRadius: config.radius.value,
               color: borderColor,
               padding: `${paddingY}px ${paddingX}px`,
@@ -101,13 +101,11 @@ export function Button() {
             onChange={(e) => setTextColor(e.target.value)}
             className="w-1/2"
             style={{
-              border: `1px solid ${textColor}`,
+              border: `${config.radius.value}px solid ${borderColor}`,
               borderRadius: config.radius.value,
               color: textColor,
               padding: `${paddingY}px ${paddingX}px`,
             }}
-            placeholder="john@example.com"
-            autoComplete="off"
           />
           <span className="text-xs text-muted-foreground">{textColor}</span>
         </div>

@@ -10,7 +10,7 @@ export function Cards() {
 
   return (
     <div
-      className="flex flex-col justify-center items-center"
+      className="flex flex-col justify-center items-center py-4 space-y-8"
       style={{ gap: config.spacing.value }}
     >
       <Inputs />

@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { useAppSelector } from '@/store';
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import {
   Select,
@@ -35,7 +36,8 @@ export function InputSelect() {
           <Select>
             <SelectTrigger
               style={{
-                borderColor: config.color.color,
+                borderColor,
+                color: textColor,
                 borderRadius: config.radius.value,
               }}
               className={cn('w-full')}
@@ -63,19 +65,6 @@ export function InputSelect() {
             value={[paddingX]}
             onValueChange={(e) => setPaddingX(e[0])}
             className="w-1/2"
-            style={
-              {
-                '-webkit-slider-runnable-track': {
-                  background: config.color.color,
-                },
-                '-webkit-slider-thumb': {
-                  background: config.color.color,
-                },
-                '--track-color': config.color.color,
-                '--range-color': config.color.color,
-                '--thumb-color': config.color.color,
-              } as React.CSSProperties
-            }
           />
           <span className="text-xs text-muted-foreground">{paddingX} px</span>
         </div>
@@ -94,6 +83,46 @@ export function InputSelect() {
             className="w-1/2"
           />
           <span className="text-xs text-muted-foreground">{paddingY} px</span>
+        </div>
+      </div>
+      <div className="flex items-center gap-2 w-full">
+        <div className="flex items-center gap-1 w-1/2">
+          <Label className="text-sm tracking-tight text-muted-foreground">
+            Border
+          </Label>
+          <Input
+            type="color"
+            value={borderColor}
+            onChange={(e) => setBorderColor(e.target.value)}
+            className="w-1/2"
+            style={{
+              border: `${config.radius.value}px solid ${borderColor}`,
+              borderRadius: config.radius.value,
+              color: borderColor,
+              padding: `${paddingY}px ${paddingX}px`,
+            }}
+            placeholder="john@example.com"
+            autoComplete="off"
+          />
+          <span className="text-xs text-muted-foreground">{borderColor}</span>
+        </div>
+        <div className="flex items-center gap-2 w-1/2">
+          <Label className="text-sm tracking-tight text-muted-foreground">
+            Text
+          </Label>
+          <Input
+            type="color"
+            value={textColor}
+            onChange={(e) => setTextColor(e.target.value)}
+            className="w-1/2"
+            style={{
+              border: `1px solid ${borderColor}`,
+              borderRadius: config.radius.value,
+              color: textColor,
+              padding: `${paddingY}px ${paddingX}px`,
+            }}
+          />
+          <span className="text-xs text-muted-foreground">{textColor}</span>
         </div>
       </div>
     </div>
