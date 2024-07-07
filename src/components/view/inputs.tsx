@@ -12,7 +12,7 @@ import { Slider } from '../ui/slider';
 export function Inputs() {
   const config = useAppSelector((state) => state.config);
   const [paddingX, setPaddingX] = useState(8);
-  const [paddingY, setPaddingY] = useState(2);
+  const [paddingY, setPaddingY] = useState(12);
   const [borderColor, setBorderColor] = useState(config.color.color);
   const [textColor, setTextColor] = useState(config.color.color);
 
