@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import {
@@ -18,27 +19,28 @@ export function Cards() {
   const config = useAppSelector((state) => state.config);
 
   return (
-    <div className="grid md:grid-cols-3 gap-2 self-center">
+    <div
+      className="grid md:grid-cols-3 self-center"
+      style={{ gap: config.spacing.value }}
+    >
       <Card className="w-full">
         <CardHeader className="flex justify-between">
           <CardTitle className="font-semibold text-center text-lg tracking-tight">
-            Input
+            Input (Text & Radio)
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <Label htmlFor="gender" className="text-sm mb-0.5 font-semibold">
-            Radio items
-          </Label>
           <RadioGroup
             className="flex items-center text-xs gap-2 mb-4"
             id="gender"
           >
-            <div className="flex items-center gap-2">
-              {['Male', 'Female'].map((item, index) => (
+            <div className="flex  flex-col gap-2">
+              {['Male', 'Female', 'Transgender'].map((item, index) => (
                 <div key={index} className="flex items-center gap-2">
                   <RadioGroupItem
                     style={{
                       borderColor: config.color.color,
+                      color: config.color.color,
                     }}
                     defaultChecked
                     value={item}
@@ -53,19 +55,24 @@ export function Cards() {
               ))}
             </div>
           </RadioGroup>
-          <Label htmlFor="email" className="text-sm font-semibold">
-            Text
-          </Label>
-          <input
+          <Input
             id="email"
-            className="block mb-2 w-full rounded-md px-3 border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
+            className={cn(
+              'block mb-2 w-full rounded-md px-3 border-0 py-1 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6',
+              `ring-[${config.color.color}] focus-visible:ring-[${config.color.color}] focus:ring-[${config.color.color} focus:text-[${config.color.color}] focus-visible:ring-[${config.color.color}]`
+            )}
+            style={{
+              borderColor: config.color.color,
+              borderRadius: config.radius.value,
+              color: config.color.color,
+            }}
             placeholder="john@example.com"
             autoComplete="off"
           />
         </CardContent>
       </Card>
 
-      <Card className="w-full">
+      <Card className="w-full relative">
         <CardHeader className="flex justify-between">
           <CardTitle className="font-semibold text-center text-lg tracking-tight">
             Button
@@ -76,24 +83,19 @@ export function Cards() {
             variant={'outline'}
             size="sm"
             className={cn(
-              'w-full'
-              // isActive && 'border-2 border-primary'
+              'w-5/6 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
             )}
-            // style={
-            //   {
-            //     '--theme-primary': `hsl(${
-            //       theme?.activeColor[mode === 'dark' ? 'dark' : 'light']
-            //     })`,
-            //   } as React.CSSProperties
-            // }
+            style={{
+              backgroundColor: config.color.color,
+              borderRadius: config.radius.value,
+            }}
           >
             Create Account
-            {/* {theme.label} */}
           </Button>
         </CardContent>
       </Card>
 
-      <Card className="w-full">
+      <Card className="w-full relative">
         <CardHeader className="flex justify-between">
           <CardTitle className="font-semibold text-center text-lg tracking-tight">
             Select
@@ -101,7 +103,15 @@ export function Cards() {
         </CardHeader>
         <CardContent>
           <Select>
-            <SelectTrigger>
+            <SelectTrigger
+              style={{
+                borderColor: config.color.color,
+                borderRadius: config.radius.value,
+              }}
+              className={cn(
+                'w-5/6 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
+              )}
+            >
               <SelectValue placeholder="Select a fruit" />
             </SelectTrigger>
             <SelectContent>

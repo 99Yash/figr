@@ -121,7 +121,7 @@ export function Spacing({
                         <Input
                           autoComplete="off"
                           type="number"
-                          step={0.05}
+                          step={4}
                           placeholder="in px"
                           {...field}
                         />
