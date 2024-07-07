@@ -55,16 +55,17 @@ export function InputSelect() {
             >
               <SelectValue placeholder="Select a fruit" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent
+              style={{ backgroundColor: bgColor ?? config.color.color }}
+            >
               {['apple', 'banana', 'blueberry', 'grapes', 'pineapple'].map(
                 (item) => (
                   <SelectItem
+                    className={cn('capitalize cursor-pointer my-0.5')}
                     style={{
-                      backgroundColor: bgColor ?? config.color.color,
                       borderColor,
                       color: textColor,
                     }}
-                    className="capitalize cursor-pointer my-0.5"
                     key={Math.random()}
                     value={item}
                   >
