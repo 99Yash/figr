@@ -28,7 +28,6 @@ export function InputSelect() {
   useEffect(() => {
     const hex = getColorFromCssValue(config.color.color);
     setBorderColor(hex);
-    setTextColor(hex);
     setBgColor(hex);
   }, [config.color.color]);
 
@@ -145,7 +144,9 @@ export function InputSelect() {
               color: textColor,
             }}
           />
-          <span className="text-xs text-muted-foreground">{textColor}</span>
+          <span className="text-xs text-muted-foreground">
+            {textColor ?? 'black'}
+          </span>
         </div>
         <div className="flex items-center gap-2 w-1/2">
           <Label className="text-sm tracking-tight text-muted-foreground">
