@@ -1,5 +1,8 @@
 'use client';
 
+import { ColorItem } from '@/components/forms/app/colors';
+import { RadiusItem } from '@/components/forms/app/radius';
+import { SpacingItem } from '@/components/forms/app/spacing';
 import { Button } from '@/components/ui/button';
 import {
   Popover,
@@ -7,17 +10,43 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
+import { useAppDispatch, useAppSelector } from '@/store';
+import { setColor, setRadius, setSpacing } from '@/store/config.slice';
 import { PaletteIcon } from 'lucide-react';
+import { useEffect } from 'react';
 
 export function Customizer({
   colors,
   radii,
   spacing,
 }: {
-  colors: { id: string; label: string; color: string }[];
-  radii: { id: string; label: string; value: number }[];
-  spacing: { id: string; label: string; value: number }[];
+  colors: ColorItem[];
+  radii: RadiusItem[];
+  spacing: SpacingItem[];
 }) {
+  const dispatch = useAppDispatch();
+
+  const config = useAppSelector((state) => state.config);
+
+  useEffect(() => {
+    dispatch(setColor(colors[0]));
+    dispatch(setRadius(radii[0]));
+    dispatch(setSpacing(spacing[0]));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
+
+  const onColorChange = (col: ColorItem) => {
+    dispatch(setColor(col));
+  };
+
+  const onRadiusChange = (rad: RadiusItem) => {
+    dispatch(setRadius(rad));
+  };
+
+  const onSpacingChange = (spac: SpacingItem) => {
+    dispatch(setSpacing(spac));
+  };
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -37,97 +66,81 @@ export function Customizer({
           <div className="flex flex-col gap-0.5 justify-center">
             <h2 className="font-medium tracking-tighter text-sm">Colors</h2>
             <div className="grid grid-cols-3 gap-2">
-              {colors.map((color) => (
-                <Button
-                  variant={'outline'}
-                  size="sm"
-                  key={color.id}
-                  onClick={() => {
-                    // setConfig({
-                    //   ...config,
-                    //   theme: theme.name,
-                    // })
-                  }}
-                  className={cn(
-                    'justify-start'
-                    // isActive && 'border-2 border-primary'
-                  )}
-                  // style={
-                  //   {
-                  //     '--theme-primary': `hsl(${
-                  //       theme?.activeColor[mode === 'dark' ? 'dark' : 'light']
-                  //     })`,
-                  //   } as React.CSSProperties
-                  // }
-                >
-                  <span
-                    className={cn(
-                      'mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary] border border-slate-300'
-                    )}
-                    style={{
-                      backgroundColor: color.color,
+              {colors.map((color) => {
+                const isActive = color.id === config.color.id;
+                return (
+                  <Button
+                    variant={'outline'}
+                    size="sm"
+                    key={color.id}
+                    onClick={() => {
+                      onColorChange(color);
                     }}
+                    className={cn(
+                      'justify-start',
+                      isActive && 'border-[1px] border-primary'
+                    )}
                   >
-                    {/* {isActive && <CheckIcon className="h-4 w-4 text-white" />} */}
-                  </span>
-                  {color.label}
-                  {/* {theme.label} */}
-                </Button>
-              ))}
+                    <span
+                      className={cn(
+                        'mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary] border border-slate-300'
+                      )}
+                      style={{
+                        backgroundColor: color.color,
+                      }}
+                    />
+                    {color.label}
+                  </Button>
+                );
+              })}
             </div>
           </div>
           <div className="flex flex-col gap-0.5 justify-center">
             <h2 className="font-medium tracking-tighter text-sm">
-              Radius (px)
+              Radius
+              <span className="text-muted-foreground text-xs"> (px)</span>
             </h2>
             <div className="grid grid-cols-5 gap-2">
-              {radii.map((radius) => (
-                <Button
-                  variant={'outline'}
-                  size="sm"
-                  key={radius.id}
-                  // onClick={() => {
-                  // 	setConfig({
-                  // 		...config,
-                  // 		radius: parseFloat(value),
-                  // 	})
-                  // }}
-                  className={
-                    cn()
-                    // config.radius === parseFloat(value) &&
-                    // 'border-2 border-primary'
-                  }
-                >
-                  {radius.value}
-                </Button>
-              ))}
+              {radii.map((radius) => {
+                const isActive = radius.id === config.radius.id;
+                return (
+                  <Button
+                    variant={'outline'}
+                    size="sm"
+                    key={radius.id}
+                    onClick={() => {
+                      onRadiusChange(radius);
+                    }}
+                    className={cn(isActive && 'border-[1px] border-primary')}
+                  >
+                    {radius.value}
+                  </Button>
+                );
+              })}
             </div>
           </div>
           <div className="flex flex-col gap-0.5 justify-center">
             <h2 className="font-medium tracking-tighter text-sm">
-              Spacing (px)
+              Spacing
+              <span className="text-muted-foreground text-xs"> (px)</span>
             </h2>
             <div className="grid grid-cols-5 gap-2">
-              {spacing.map((spacing) => (
-                <Button
-                  variant={'outline'}
-                  size="sm"
-                  key={spacing.id}
-                  // onClick={() => {
-                  //   setConfig({
-                  //     ...config,
-                  //     radius: parseFloat(value),
-                  //   });
-                  // }}
-                  className={
-                    cn()
-                    // config.radius === parseFloat(value) &&
-                    // 'border-2 border-primary'
-                  }
-                >
-                  {spacing.value}
-                </Button>
-              ))}
+              {spacing.map((spacing) => {
+                const isActive = spacing.id === config.spacing.id;
+                return (
+                  <Button
+                    variant={'outline'}
+                    size="sm"
+                    key={spacing.id}
+                    onClick={() => {
+                      onSpacingChange(spacing);
+                    }}
+                    className={cn(isActive && 'border-[1px] border-primary')}
+                  >
+                    {spacing.value}
+                  </Button>
+                );
+              })}
             </div>
           </div>
         </div>

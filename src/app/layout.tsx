@@ -1,3 +1,4 @@
+import { Providers } from '@/components/provider';
 import { Toaster } from '@/components/ui/toaster';
 import { UserNav } from '@/components/user-menu';
 import { getSession } from '@/lib/auth';
@@ -21,29 +22,31 @@ export default async function RootLayout({
 }>) {
   const session = await getSession();
   return (
-    <html lang="en">
-      <body
-        className={
-          (cn('bg-gray-50 dark:bg-gray-900 antialiased'), inter.className)
-        }
-      >
-        {' '}
-        {session && (
-          <div className="flex items-center justify-between my-2">
-            <Link
-              href={'/'}
-              className="text-xl tracking-tight font-semibold ml-12"
-            >
-              Identity
-            </Link>
-            <div className="flex items-center justify-end m-12">
-              <UserNav user={session.user} />
+    <Providers>
+      <html lang="en">
+        <body
+          className={
+            (cn('bg-gray-50 dark:bg-gray-900 antialiased'), inter.className)
+          }
+        >
+          {' '}
+          {session && (
+            <div className="flex items-center justify-between my-2">
+              <Link
+                href={'/'}
+                className="text-xl tracking-tight font-semibold ml-12"
+              >
+                Identity
+              </Link>
+              <div className="flex items-center justify-end m-12">
+                <UserNav user={session.user} />
+              </div>
             </div>
-          </div>
-        )}
-        <Toaster />
-        {children}
-      </body>
-    </html>
+          )}
+          <Toaster />
+          {children}
+        </body>
+      </html>
+    </Providers>
   );
 }

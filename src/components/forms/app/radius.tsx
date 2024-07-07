@@ -27,13 +27,15 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
-const radiusItemSchema = z.object({
+export const radiusItemSchema = z.object({
   id: z.string(),
   label: z.string(),
   value: z.coerce.number().min(1).multipleOf(0.01, {
     message: 'Invalid value, must be a multiple of .01',
   }),
 });
+
+export type RadiusItem = z.infer<typeof radiusItemSchema>;
 
 const radiusSchema = z.object({
   radii: z.array(radiusItemSchema),

@@ -27,13 +27,15 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
-const spacingItemSchema = z.object({
+export const spacingItemSchema = z.object({
   id: z.string(),
   label: z.string(),
   value: z.coerce.number().min(1).multipleOf(0.01, {
     message: 'Invalid value, must be a multiple of .01',
   }),
 });
+
+export type SpacingItem = z.infer<typeof spacingItemSchema>;
 
 const spacingSchema = z.object({
   spacing: z.array(spacingItemSchema),

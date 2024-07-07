@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -10,8 +12,11 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
+import { useAppSelector } from '@/store';
 
 export function Cards() {
+  const config = useAppSelector((state) => state.config);
+
   return (
     <div className="grid md:grid-cols-3 gap-2 self-center">
       <Card className="w-full">
@@ -21,7 +26,7 @@ export function Cards() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <Label htmlFor="gender" className="text-sm font-semibold">
+          <Label htmlFor="gender" className="text-sm mb-0.5 font-semibold">
             Radio items
           </Label>
           <RadioGroup
@@ -29,31 +34,23 @@ export function Cards() {
             id="gender"
           >
             <div className="flex items-center gap-2">
-              <RadioGroupItem defaultChecked value="all" />
-              <Label
-                htmlFor="all"
-                className="text-sm tracking-tight text-muted-foreground"
-              >
-                Not Specify
-              </Label>
-            </div>
-            <div className="flex items-center gap-2">
-              <RadioGroupItem value="male" />
-              <Label
-                htmlFor="male"
-                className="text-sm tracking-tight text-muted-foreground"
-              >
-                Male
-              </Label>
-            </div>
-            <div className="flex items-center gap-2">
-              <RadioGroupItem value="female" />
-              <Label
-                htmlFor="female"
-                className="text-sm tracking-tight text-muted-foreground"
-              >
-                Female
-              </Label>
+              {['Male', 'Female'].map((item, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <RadioGroupItem
+                    style={{
+                      borderColor: config.color.color,
+                    }}
+                    defaultChecked
+                    value={item}
+                  />
+                  <Label
+                    htmlFor={item}
+                    className="text-sm tracking-tight text-muted-foreground"
+                  >
+                    {item}
+                  </Label>
+                </div>
+              ))}
             </div>
           </RadioGroup>
           <Label htmlFor="email" className="text-sm font-semibold">
@@ -103,11 +100,8 @@ export function Cards() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <Label htmlFor="gender" className="text-sm font-semibold">
-            Select
-          </Label>
           <Select>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger>
               <SelectValue placeholder="Select a fruit" />
             </SelectTrigger>
             <SelectContent>

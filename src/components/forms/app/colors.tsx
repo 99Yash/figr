@@ -28,7 +28,7 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
-const colorItemSchema = z.object({
+export const colorItemSchema = z.object({
   id: z.string(),
   label: z.string(),
   color: z
@@ -51,6 +51,8 @@ const colorItemSchema = z.object({
       }
     ),
 });
+
+export type ColorItem = z.infer<typeof colorItemSchema>;
 
 const colorsSchema = z.object({
   colors: z.array(colorItemSchema),
@@ -134,6 +136,7 @@ export function Colors({
                           value={field.value}
                           onValueChange={(val) => {
                             field.onChange(val);
+                            form.setValue(`colors.${index}.color`, val);
                           }}
                         />
                       </FormControl>
