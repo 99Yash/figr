@@ -1,10 +1,11 @@
 'use server';
 
+import { ColorsFormData } from '@/components/forms/colors';
 import { LoginInput } from '@/components/forms/login';
 import { SignupInput } from '@/components/forms/signup';
 import bcrypt from 'bcrypt';
 import { cookies } from 'next/headers';
-import { encrypt } from './auth';
+import { encrypt, getSession } from './auth';
 import { db } from './db';
 
 export async function signup(formData: SignupInput) {
@@ -24,15 +25,35 @@ export async function signup(formData: SignupInput) {
     throw new Error('Email already exists');
   }
 
-  await db.user.create({
+  const dbUser = await db.user.create({
     data: {
       ...user,
       password: hashedPassword,
     },
   });
 
-  const expires = new Date(Date.now() + 45 * 60 * 1000);
-  const session = await encrypt({ user, expires });
+  await db.color.createMany({
+    data: [
+      {
+        label: 'Primary',
+        color: '#000000',
+        userId: dbUser.id,
+      },
+      {
+        label: 'Secondary',
+        color: '#000000',
+        userId: dbUser.id,
+      },
+      {
+        label: 'Tertiary',
+        color: '#000000',
+        userId: dbUser.id,
+      },
+    ],
+  });
+
+  const expires = new Date(Date.now() + 4 * 60 * 60 * 1000);
+  const session = await encrypt({ user: dbUser, expires });
 
   cookies().set('session', session, { expires, httpOnly: true });
 
@@ -43,10 +64,6 @@ export async function login(formData: LoginInput) {
   try {
     const userExists = await db.user.findUnique({
       where: { email: formData.email },
-      select: {
-        name: true,
-        password: true,
-      },
     });
 
     if (!userExists) {
@@ -62,13 +79,9 @@ export async function login(formData: LoginInput) {
       throw new Error('Invalid email or password');
     }
 
-    const expires = new Date(Date.now() + 45 * 60 * 1000);
+    const expires = new Date(Date.now() + 4 * 60 * 60 * 1000);
     const session = await encrypt({
-      user: {
-        email: formData.email,
-        password: formData.password,
-        name: userExists.name,
-      },
+      user: userExists,
       expires,
     });
 
@@ -80,4 +93,37 @@ export async function login(formData: LoginInput) {
 
 export async function logout() {
   cookies().set('session', '', { expires: new Date(0) });
+}
+
+export async function submitColor(formData: ColorsFormData) {
+  const user = await getSession();
+
+  if (!user) {
+    throw new Error('You must be logged in to submit a color');
+  }
+
+  const colors = formData.colors.map((color) => ({
+    id: color.id,
+    label: color.label,
+    color: color.color,
+    userId: user.user.id,
+  }));
+
+  for (const color of colors) {
+    await db.color.upsert({
+      where: {
+        id: color.id,
+        userId: user.user.id,
+      },
+      update: {
+        label: color.label,
+        color: color.color,
+      },
+      create: {
+        label: color.label,
+        color: color.color,
+        userId: user.user.id,
+      },
+    });
+  }
 }

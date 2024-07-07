@@ -1,36 +1,51 @@
 import { Colors } from '@/components/forms/colors';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getSession } from '@/lib/auth';
+import { db } from '@/lib/db';
 import { redirect } from 'next/navigation';
 
-const tabs = ['Colors', 'Typography', 'Components'];
+const tabs = ['Colors', 'Radius', 'Spacing'];
 
 export default async function Dashboard() {
   const session = await getSession();
 
   if (!session) redirect('/');
 
+  const colors = await db.color.findMany({
+    where: {
+      userId: session.user.id,
+    },
+    select: {
+      id: true,
+      label: true,
+      color: true,
+    },
+  });
+
   return (
     <section className="flex flex-col gap-4 items-center justify-center">
       <h1 className="text-3xl font-semibold tracking-tighter">
         Welcome back, {session.user.name}
       </h1>
-      <Tabs defaultValue="Colors" className="w-fit">
-        <TabsList className="flex w-full justify-center rounded-md bg-muted p-1 text-muted-foreground">
+      <Tabs
+        defaultValue="Colors"
+        className="w-full flex flex-col gap-4 items-center justify-center"
+      >
+        <TabsList className="flex w-fit justify-center rounded-md bg-muted p-1 text-muted-foreground">
           {tabs.map((tab) => (
             <TabsTrigger key={tab} value={tab}>
               {tab}
             </TabsTrigger>
           ))}
         </TabsList>
-        <TabsContent value="Colors" className="w-full">
-          <Colors />
+        <TabsContent value="Colors" className="w-3/4">
+          <Colors colors={colors} />
         </TabsContent>
-        <TabsContent value="Typography">
-          <p>Typography</p>
+        <TabsContent value="Radius" className="w-3/4">
+          <p>Radius</p>
         </TabsContent>
-        <TabsContent value="Components">
-          <p>Components</p>
+        <TabsContent value="Spacing" className="w-3/4">
+          <p>Spacing</p>
         </TabsContent>
       </Tabs>
     </section>

@@ -1,4 +1,5 @@
-const colorNames = [
+// List of supported CSS colors
+export const colorNames = [
   'aliceblue',
   'antiquewhite',
   'aqua',
