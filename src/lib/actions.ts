@@ -4,7 +4,9 @@ import { ColorsFormData } from '@/components/forms/colors';
 import { LoginInput } from '@/components/forms/login';
 import { RadiusFormData } from '@/components/forms/radius';
 import { SignupInput } from '@/components/forms/signup';
+import { SpacingFormData } from '@/components/forms/spacing';
 import bcrypt from 'bcrypt';
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { encrypt, getSession } from './auth';
 import { db } from './db';
@@ -108,6 +110,8 @@ export async function submitColor(formData: ColorsFormData) {
       });
     })
   );
+
+  revalidatePath('/dashboard');
 }
 
 export async function submitRadius(formData: RadiusFormData) {
@@ -141,4 +145,41 @@ export async function submitRadius(formData: RadiusFormData) {
       });
     })
   );
+
+  revalidatePath('/dashboard');
+}
+
+export async function submitSpacing(formData: SpacingFormData) {
+  const user = await getSession();
+
+  if (!user) {
+    throw new Error('You must be logged in to submit a spacing');
+  }
+
+  const spacing = formData.spacing.map((spacing) => ({
+    id: spacing.id,
+    label: spacing.label,
+    value: Number(spacing.value),
+  }));
+
+  await Promise.all(
+    spacing.map(async (spacing) => {
+      await db.spacing.upsert({
+        where: {
+          id: spacing.id,
+        },
+        update: {
+          label: spacing.label,
+          value: spacing.value,
+        },
+        create: {
+          label: spacing.label,
+          value: spacing.value,
+          userId: user.user.id,
+        },
+      });
+    })
+  );
+
+  revalidatePath('/dashboard');
 }

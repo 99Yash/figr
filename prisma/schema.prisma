@@ -15,6 +15,7 @@ model User {
 
   colors    Color[]
   radius    Radius[]
+  spacing   Spacing[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -33,6 +34,18 @@ model Color {
 }
 
 model Radius {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  label     String  @unique
+  value     Float
+  
+  userId    String  @map("user_id") @db.ObjectId
+  user      User    @relation(fields: [userId], references: [id])
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Spacing {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
   label     String  @unique
   value     Float
