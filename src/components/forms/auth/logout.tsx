@@ -1,9 +1,9 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { logout } from '@/lib/actions';
 import { catchError } from '@/lib/utils';
 import { useState } from 'react';
-import { Button } from '../ui/button';
 
 export function Logout() {
   const [isLoading, setIsLoading] = useState(false);
