@@ -1,4 +1,5 @@
 import { Colors } from '@/components/forms/colors';
+import { Radius } from '@/components/forms/radius';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getSession } from '@/lib/auth';
 import { db } from '@/lib/db';
@@ -22,6 +23,17 @@ export default async function Dashboard() {
     },
   });
 
+  const radii = await db.radius.findMany({
+    where: {
+      userId: session.user.id,
+    },
+    select: {
+      id: true,
+      label: true,
+      value: true,
+    },
+  });
+
   return (
     <section className="flex flex-col gap-4 items-center justify-center">
       <h1 className="text-3xl font-semibold tracking-tighter">
@@ -42,7 +54,7 @@ export default async function Dashboard() {
           <Colors colors={colors} />
         </TabsContent>
         <TabsContent value="Radius" className="w-3/4">
-          <p>Radius</p>
+          <Radius radius={radii} />
         </TabsContent>
         <TabsContent value="Spacing" className="w-3/4">
           <p>Spacing</p>

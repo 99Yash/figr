@@ -2,6 +2,7 @@
 
 import { ColorsFormData } from '@/components/forms/colors';
 import { LoginInput } from '@/components/forms/login';
+import { RadiusFormData } from '@/components/forms/radius';
 import { SignupInput } from '@/components/forms/signup';
 import bcrypt from 'bcrypt';
 import { cookies } from 'next/headers';
@@ -30,26 +31,6 @@ export async function signup(formData: SignupInput) {
       ...user,
       password: hashedPassword,
     },
-  });
-
-  await db.color.createMany({
-    data: [
-      {
-        label: 'Primary',
-        color: '#000000',
-        userId: dbUser.id,
-      },
-      {
-        label: 'Secondary',
-        color: '#000000',
-        userId: dbUser.id,
-      },
-      {
-        label: 'Tertiary',
-        color: '#000000',
-        userId: dbUser.id,
-      },
-    ],
   });
 
   const expires = new Date(Date.now() + 4 * 60 * 60 * 1000);
@@ -109,21 +90,55 @@ export async function submitColor(formData: ColorsFormData) {
     userId: user.user.id,
   }));
 
-  for (const color of colors) {
-    await db.color.upsert({
-      where: {
-        id: color.id,
-        userId: user.user.id,
-      },
-      update: {
-        label: color.label,
-        color: color.color,
-      },
-      create: {
-        label: color.label,
-        color: color.color,
-        userId: user.user.id,
-      },
-    });
+  await Promise.all(
+    colors.map(async (color) => {
+      await db.color.upsert({
+        where: {
+          id: color.id,
+        },
+        update: {
+          label: color.label,
+          color: color.color,
+        },
+        create: {
+          label: color.label,
+          color: color.color,
+          userId: user.user.id,
+        },
+      });
+    })
+  );
+}
+
+export async function submitRadius(formData: RadiusFormData) {
+  const user = await getSession();
+
+  if (!user) {
+    throw new Error('You must be logged in to submit a radius');
   }
+
+  const radii = formData.radii.map((radius) => ({
+    id: radius.id,
+    label: radius.label,
+    value: Number(radius.value),
+  }));
+
+  await Promise.all(
+    radii.map(async (radius) => {
+      await db.radius.upsert({
+        where: {
+          id: radius.id,
+        },
+        update: {
+          label: radius.label,
+          value: radius.value,
+        },
+        create: {
+          label: radius.label,
+          value: radius.value,
+          userId: user.user.id,
+        },
+      });
+    })
+  );
 }

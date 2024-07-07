@@ -1,12 +1,11 @@
 'use client';
 
-import { submitColor } from '@/lib/actions';
-import { colorNames } from '@/lib/data';
-import { default as ObjectId, default as ObjectID } from 'bson-objectid';
+import { submitRadius } from '@/lib/actions';
+import { catchError, cn } from '@/lib/utils';
+import ObjectID from 'bson-objectid';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { catchError, cn } from '../../lib/utils';
 import { Button } from '../ui/button';
 import {
   Card,
@@ -26,63 +25,41 @@ import {
 } from '../ui/form';
 import { Input } from '../ui/input';
 import { Loading } from '../ui/loading';
-import { AutoComplete } from '../utils/auto-complete';
 
-const colorItemSchema = z.object({
+const radiusItemSchema = z.object({
   id: z.string(),
   label: z.string(),
-  color: z
-    .string()
-    .min(1)
-    .refine(
-      (val) => {
-        const hexRegex = /^#[0-9A-Fa-f]{6}$/;
-        const hslRegex = /^hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)$/;
-
-        return (
-          hexRegex.test(val) ||
-          hslRegex.test(val) ||
-          colorNames.includes(val.toLowerCase())
-        );
-      },
-      {
-        message:
-          'Unsupported value. Use hex value, hsl value, or a valid CSS color name.',
-      }
-    ),
+  value: z.coerce.number().min(1).multipleOf(0.01, {
+    message: 'Invalid value, must be a multiple of .01',
+  }),
 });
 
-const colorsSchema = z.object({
-  colors: z.array(colorItemSchema),
+const radiusSchema = z.object({
+  radii: z.array(radiusItemSchema),
 });
 
-export type ColorsFormData = z.infer<typeof colorsSchema>;
+export type RadiusFormData = z.infer<typeof radiusSchema>;
 
-export function Colors({
-  colors: userColors,
+export function Radius({
+  radius: userRadius,
 }: {
-  colors: z.infer<typeof colorsSchema>['colors'];
+  radius: z.infer<typeof radiusSchema>['radii'];
 }) {
-  const form = useForm<ColorsFormData>({
+  const form = useForm<RadiusFormData>({
     defaultValues: {
-      colors:
-        userColors.length > 0
-          ? userColors
+      radii:
+        userRadius.length > 0
+          ? userRadius
           : [
               {
                 id: new ObjectID().toHexString(),
                 label: 'Primary',
-                color: '#000000',
+                value: 2,
               },
               {
                 id: new ObjectID().toHexString(),
                 label: 'Secondary',
-                color: '#ffffff',
-              },
-              {
-                id: new ObjectID().toHexString(),
-                label: 'Tertiary',
-                color: '#cccccc',
+                value: 3,
               },
             ],
     },
@@ -91,13 +68,18 @@ export function Colors({
 
   const { fields, append } = useFieldArray({
     control: form.control,
-    name: 'colors',
+    name: 'radii',
   });
 
-  async function onSubmit(data: ColorsFormData) {
+  async function onSubmit(data: RadiusFormData) {
+    const formattedData = data.radii.map((radius) => ({
+      id: radius.id,
+      label: radius.label,
+      value: Number(radius.value),
+    }));
     try {
-      await submitColor(data);
-      toast.success('Colors saved');
+      await submitRadius({ radii: formattedData });
+      toast.success('Radius saved');
     } catch (e) {
       catchError(e);
     }
@@ -106,8 +88,8 @@ export function Colors({
   return (
     <Card className="w-full p-3.5">
       <CardHeader>
-        <CardTitle>Colors</CardTitle>
-        <CardDescription>Pick colors for your project</CardDescription>
+        <CardTitle>Radius</CardTitle>
+        <CardDescription>Pick border radius for your project</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -117,14 +99,14 @@ export function Colors({
                 <FormField
                   control={form.control}
                   key={field.id}
-                  name={`colors.${index}.label`}
+                  name={`radii.${index}.label`}
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className={cn(index !== 0 && 'sr-only')}>
                         Label
                       </FormLabel>
                       <FormDescription className={cn(index !== 0 && 'sr-only')}>
-                        The name of the color
+                        The name of the variable
                       </FormDescription>
                       <FormControl>
                         <Input {...field} />
@@ -136,23 +118,22 @@ export function Colors({
                 <FormField
                   control={form.control}
                   key={field.id}
-                  name={`colors.${index}.color`}
+                  name={`radii.${index}.value`}
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className={cn(index !== 0 && 'sr-only')}>
-                        Color
+                        Value
                       </FormLabel>
                       <FormDescription className={cn(index !== 0 && 'sr-only')}>
-                        The value of the color
+                        The value of the radius in pixels
                       </FormDescription>
                       <FormControl>
-                        <AutoComplete
-                          options={colorNames}
-                          placeholder="Enter text, hex, or hsl"
-                          value={field.value}
-                          onValueChange={(val) => {
-                            field.onChange(val);
-                          }}
+                        <Input
+                          autoComplete="off"
+                          type="number"
+                          step={0.05}
+                          placeholder="in px"
+                          {...field}
                         />
                       </FormControl>
                       <FormMessage />
@@ -169,13 +150,13 @@ export function Colors({
                 className="mt-2"
                 onClick={() =>
                   append({
-                    id: new ObjectId().toHexString(),
-                    label: `Color ${fields.length + 1}`,
-                    color: '#000000',
+                    id: new ObjectID().toHexString(),
+                    label: `Radius ${fields.length + 1}`,
+                    value: 8,
                   })
                 }
               >
-                Add Color
+                Add Radius
               </Button>
               <Button
                 disabled={
