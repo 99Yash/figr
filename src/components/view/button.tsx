@@ -19,7 +19,7 @@ export function Button() {
   const config = useAppSelector((state) => state.config);
 
   const [paddingX, setPaddingX] = useState(2);
-  const [paddingY, setPaddingY] = useState(2);
+  const [paddingY, setPaddingY] = useState(12);
 
   const [borderColor, setBorderColor] = useState(config.color.color);
   const [textColor, setTextColor] = useState(config.color.color);
@@ -32,7 +32,7 @@ export function Button() {
   return (
     <div className="flex flex-col gap-7 w-1/3">
       <Card
-        className="grow"
+        className="min-h-[300px]"
         style={{ borderColor: borderColor ?? config.color.color }}
       >
         <CardHeader className="flex items-center justify-between">
@@ -124,7 +124,7 @@ export function Button() {
             }}
           />
           <span className="text-xs text-muted-foreground">
-            {textColor ?? config.color.color}
+            {textColor ?? 'black'}
           </span>
         </div>
       </div>

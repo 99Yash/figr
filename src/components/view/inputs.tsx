@@ -25,7 +25,10 @@ export function Inputs() {
 
   return (
     <div className="flex flex-col w-1/3 gap-7">
-      <Card style={{ borderColor: borderColor ?? config.color.color }}>
+      <Card
+        className="min-h-[300px]"
+        style={{ borderColor: borderColor ?? config.color.color }}
+      >
         <CardHeader className="flex justify-between">
           <CardTitle className="font-semibold text-center text-lg tracking-tight">
             Input (Text & Radio)

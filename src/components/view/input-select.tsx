@@ -35,7 +35,7 @@ export function InputSelect() {
   return (
     <div className="flex flex-col gap-7 w-1/3">
       <Card
-        className="grow"
+        className="min-h-[300px]"
         style={{ borderColor: borderColor ?? config.color.color }}
       >
         <CardHeader className="flex justify-between">
@@ -50,6 +50,7 @@ export function InputSelect() {
                 borderColor,
                 color: textColor,
                 borderRadius: config.radius.value,
+                padding: `${paddingY}px ${paddingX}px`,
               }}
               className={cn('w-full')}
             >
