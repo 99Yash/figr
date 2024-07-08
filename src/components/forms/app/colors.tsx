@@ -152,6 +152,7 @@ export function Colors({
                 variant="outline"
                 size="sm"
                 className="mt-2"
+                disabled={form.formState.isSubmitting}
                 onClick={() =>
                   append({
                     id: new ObjectId().toHexString(),
