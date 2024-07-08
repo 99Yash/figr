@@ -2,6 +2,7 @@ import { Providers } from '@/components/provider';
 import { Toaster } from '@/components/ui/toaster';
 import { UserNav } from '@/components/user-menu';
 import { getSession } from '@/lib/auth';
+import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Link from 'next/link';
@@ -44,6 +45,7 @@ export default async function RootLayout({
             </div>
           )}
           <Toaster />
+          <Analytics />
           {children}
         </body>
       </html>
