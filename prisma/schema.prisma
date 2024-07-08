@@ -23,7 +23,7 @@ model User {
 
 model Color {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  label     String  @unique
+  label     String  
   color     String
   
   userId    String  @map("user_id") @db.ObjectId
@@ -35,7 +35,7 @@ model Color {
 
 model Radius {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  label     String  @unique
+  label     String  
   value     Float
   
   userId    String  @map("user_id") @db.ObjectId
@@ -47,7 +47,7 @@ model Radius {
 
 model Spacing {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  label     String  @unique
+  label     String  
   value     Float
   
   userId    String  @map("user_id") @db.ObjectId
