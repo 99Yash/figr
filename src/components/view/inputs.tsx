@@ -67,12 +67,14 @@ export function Inputs() {
               'block mb-2 w-full rounded-md px-3 border-0 py-1 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6',
               `ring-none focus-visible:ring-none focus:ring-[${config.color.color} focus:text-[${config.color.color}] focus-visible:ring-[${config.color.color}]`
             )}
-            style={{
-              border: `1px solid ${borderColor ?? config.color.color}`,
-              borderRadius: config.radius.value,
-              color: textColor,
-              padding: `${paddingY}px ${paddingX}px`,
-            }}
+            style={
+              {
+                border: `2px solid ${borderColor ?? config.color.color}`,
+                borderRadius: config.radius.value,
+                color: textColor,
+                padding: `${paddingY}px ${paddingX}px`,
+              } as React.CSSProperties
+            }
             placeholder="john@example.com"
             autoComplete="off"
           />

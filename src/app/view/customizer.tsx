@@ -85,9 +85,11 @@ export function Customizer({
                       className={cn(
                         'mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary] border border-slate-300'
                       )}
-                      style={{
-                        backgroundColor: color.color,
-                      }}
+                      style={
+                        {
+                          '--theme-primary': `${color.color}`,
+                        } as React.CSSProperties
+                      }
                     />
                     {color.label}
                   </Button>
